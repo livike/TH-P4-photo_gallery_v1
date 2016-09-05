@@ -1,19 +1,22 @@
 
-// Define the overlay as a jQuery object
+// Define the jQuery objects to append
 var $overlay = $('<div id="overlay"></div>');
 var $image = $('<img>');
 var $caption = $('<p></p>');
 var $index = 0;
-var $video = $("<iframe frameborder='0' allowfullscreen> </iframe>");
+var $video = $("<iframe id='video-player' frameborder='0' allowfullscreen> </iframe>");
+
+var isVideo = false;
 var overlayOn = false;
+var videoPlays = false;
 
 
 //Function: load img or video
 function loadMedia(media){
 	var mediaLocation=media.attr("href");
-	
-	if (media.hasClass("video")) {
-		$video.attr("src", mediaLocation);
+	isVideo = media.hasClass("video");
+	if (isVideo) {
+		$video.attr("src", mediaLocation+'?enablejsapi=1');
       	$overlay.append($video);
       	$image.detach();
     } else {
@@ -51,6 +54,36 @@ var prevNext = function (direction){
 	var indexUpdated = parseInt($index) +1;
 	loadMedia($('#imagegallery li:nth-child('+ indexUpdated +') a'));
 
+	//getting rid of focus on the buttons to be able to start video with the spacebar key
+	$(':focus').blur();
+
+};
+
+//Function: close the lightbox overlay
+var openCloseOverlay = function(event){
+	if (event=='open'){
+		$overlay.fadeIn();
+		overlayOn = true;
+	}else if (event=='close'){
+		$overlay.fadeOut();
+		overlayOn = false;
+	}else{
+		return false;
+	}
+	
+};
+
+//Function: fires play and pause on embedded Youtube videos in lightbox
+function playStopVideo(plays){
+
+	var videoURL = $video.attr("src");
+	if (!plays){
+		$video[0].contentWindow.postMessage('{"event":"command","func":"' + 'playVideo' + '","args":""}', '*');    
+		videoPlays = true;
+	} else {
+		$video[0].contentWindow.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
+		videoPlays = false;
+	}
 };
 
 /********************
@@ -68,9 +101,8 @@ $("#imagegallery a").click(function(event){
 	//determine the index of the image
 	$index=$(this).parent().index();
 
-	$overlay.fadeIn();
-	overlayOn = true;
-
+	//Open the overlay
+	openCloseOverlay("open");
 });
 
 /********************
@@ -95,8 +127,7 @@ $("#btnPrev").click(function(event){
 
 // for Close hide the overlay
 $("#btnClose").click(function(){
-	$overlay.fadeOut();
-	overlayOn = false;
+	openCloseOverlay("close");
 });
 
 /********************
@@ -105,16 +136,24 @@ KEYBOARD NAVIGATION
 
 //Left : 37 ->Previous
 //Right : 39 -> Next
+//Esc : 27 -> Close the Lightbox
+//Space : 32 -> Start the video
+
 $( window ).keyup(function(event) {
   var KeyboardKey = event.which;
-  
   if(overlayOn){
     if (KeyboardKey == '37'){
-      prevNext("prev");
+    	prevNext("prev");
     } 
     else if (KeyboardKey == '39'){
-      prevNext("next");
+    	prevNext("next");
     }
+    else if (KeyboardKey == '27'){
+    	closeOverlay();
+    //fires only if the media is video
+    } else if (KeyboardKey == '32' & isVideo){
+	    playStopVideo(videoPlays);
+	}
   }
 });
 
@@ -127,7 +166,7 @@ $("#search").keyup(function(){
 	var searchVal = $(this).val();
 
 	$("#imagegallery img").each(function(){
-		var searchAttr = $(this).attr("alt");
+		var searchAttr = $(this).attr("alt") + $(this).siblings().text();
 
 		if (searchAttr.toLowerCase().search(searchVal.toLowerCase()) > -1){
 			$(this).parent().parent().fadeIn();

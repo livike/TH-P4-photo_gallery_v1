@@ -34,7 +34,6 @@ input#search{
 }
 img{
 	width: 600px;
-	height:400px;
 }
 
 .gallery{
@@ -83,7 +82,11 @@ span {
 	text-align: center;
 	display:none;
 }
-#overlay img,
+#overlay img {
+	margin-top:5%;
+	width: 600px; 
+}
+
 #overlay iframe {
 	margin-top:5%;
 	width: 600px;
@@ -135,7 +138,11 @@ BUTTONS
 		display: none;
 	}
 
-	#overlay img,
+	#overlay img{
+		margin-top:20%;
+		width: 80%; 
+		max-width:600px;
+	}
 	#overlay iframe {
 		margin-top:20%;
 		width: 80%;
