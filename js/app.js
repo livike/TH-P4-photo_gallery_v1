@@ -1,5 +1,5 @@
 // Define the jQuery objects to append
-var $overlay = $('<div id="overlay"></div>');
+var $overlay = $('<div id="overlay" class="overlay"></div>');
 var $image = $('<img>');
 var $caption = $('<p></p>');
 var $index = 0;
@@ -108,9 +108,9 @@ NAVIGATION BUTTONS
 ********************/
 
 //add a buttons
-$overlay.add().append("<button id='btnPrev' class='btn'> < </button>");
-$overlay.add().append("<button id='btnNext' class='btn'> > </button>");
-$overlay.add().append("<button id='btnClose' class='btn'> X </button>");
+$overlay.add().append("<button id='btnPrev' class='btn btnprev'> < </button>");
+$overlay.add().append("<button id='btnNext' class='btn btnnext'> > </button>");
+$overlay.add().append("<button id='btnClose' class='btn btnclose'> X </button>");
 $overlay.add().append("<p class='info'>You can navigate also with the <br><b>Left</b> and <b>Right</b><br> keys on your keyboard</p>");
 
 //for Next increment and show the new image
