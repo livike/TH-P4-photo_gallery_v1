@@ -17,13 +17,13 @@ function loadMedia(media){
 	isVideo = media.hasClass("video");
 	if (isVideo) {
 		$video.attr("src", mediaLocation+'?enablejsapi=1');
-      	$overlay.append($video);
-      	$image.detach();
-    } else {
-    	$image.attr("src", mediaLocation);
-    	$overlay.append($image);
-    	$video.detach();
-    }
+		$overlay.append($video);
+		$image.detach();
+	} else {
+		$image.attr("src", mediaLocation);
+		$overlay.append($image);
+		$video.detach();
+	}
 
 	var captionText=media.children("span").text();
 	$caption.text(captionText);
@@ -45,11 +45,11 @@ var prevNext = function (direction){
 	var $galleryLength = $("#imagegallery li").length;
 
 	//make the images cycle
- 	if ($index < 0) { 
- 		$index = $galleryLength-1;
- 	} else if ($index == $galleryLength) { 
- 		$index = 0; 
- 	}
+	if ($index < 0) { 
+		$index = $galleryLength-1;
+	} else if ($index == $galleryLength) { 
+		$index = 0; 
+	}
 
 	var indexUpdated = parseInt($index) +1;
 	loadMedia($('#imagegallery li:nth-child('+ indexUpdated +') a'));
@@ -142,17 +142,17 @@ KEYBOARD NAVIGATION
 $( window ).keyup(function(event) {
   var KeyboardKey = event.which;
   if(overlayOn){
-    if (KeyboardKey == '37'){
-    	prevNext("prev");
-    } 
-    else if (KeyboardKey == '39'){
-    	prevNext("next");
-    }
-    else if (KeyboardKey == '27'){
-    	closeOverlay();
-    //fires only if the media is video
-    } else if (KeyboardKey == '32' & isVideo){
-	    playStopVideo(videoPlays);
+	if (KeyboardKey == '37'){
+		prevNext("prev");
+	} 
+	else if (KeyboardKey == '39'){
+		prevNext("next");
+	}
+	else if (KeyboardKey == '27'){
+		closeOverlay();
+	//fires only if the media is video
+	} else if (KeyboardKey == '32' & isVideo){
+		playStopVideo(videoPlays);
 	}
   }
 });

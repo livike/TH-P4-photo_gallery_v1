@@ -64,12 +64,12 @@ span {
 }
 
 .video:after {
-  content: "VIDEO";
-  position: absolute;
-  top: 22px;
-  right: 12px;
-  color:white;
-  font-size: 0.8em;
+	content: "VIDEO";
+	position: absolute;
+	top: 22px;
+	right: 12px;
+	color:white;
+	font-size: 0.8em;
 }
 
 #overlay{
