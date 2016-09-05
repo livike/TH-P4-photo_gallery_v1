@@ -1,4 +1,3 @@
-
 // Define the jQuery objects to append
 var $overlay = $('<div id="overlay"></div>');
 var $image = $('<img>');
@@ -76,7 +75,6 @@ var openCloseOverlay = function(event){
 //Function: fires play and pause on embedded Youtube videos in lightbox
 function playStopVideo(plays){
 
-	var videoURL = $video.attr("src");
 	if (!plays){
 		$video[0].contentWindow.postMessage('{"event":"command","func":"' + 'playVideo' + '","args":""}', '*');    
 		videoPlays = true;
@@ -84,7 +82,7 @@ function playStopVideo(plays){
 		$video[0].contentWindow.postMessage('{"event":"command","func":"' + 'pauseVideo' + '","args":""}', '*');
 		videoPlays = false;
 	}
-};
+}
 
 /********************
 THE OVERLAY
@@ -149,9 +147,9 @@ $( window ).keyup(function(event) {
 		prevNext("next");
 	}
 	else if (KeyboardKey == '27'){
-		closeOverlay();
+		openCloseOverlay("close");
 	//fires only if the media is video
-	} else if (KeyboardKey == '32' & isVideo){
+	} else if (KeyboardKey == '32' && isVideo){
 		playStopVideo(videoPlays);
 	}
   }
@@ -177,3 +175,4 @@ $("#search").keyup(function(){
 	});
 
 });
+
